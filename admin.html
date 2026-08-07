@@ -2,785 +2,256 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Rani Shopee</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rani Shopee - Sistem Inventaris</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root {
-  --primary: #DC2626;
-  --secondary: #F87171;
-  --accent: #FFFFFF;
-  --bg: #FEE2E2;
-  --surface: #FFFFFF;
-  --radius: 18px;
-  --shadow: 0 4px 12px rgba(220,38,38,0.15);
+  --merah: #DC2626;
+  --merah-muda: #FEE2E2;
+  --putih: #FFFFFF;
+  --abu: #666;
+  --radius: 12px;
 }
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: system-ui, -apple-system, sans-serif;
+* {margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif;}
+body {background:#f5f5f5;}
+
+.login-box {
+  max-width:400px; margin:100px auto; padding:30px;
+  background:var(--putih); border-radius:var(--radius);
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
-body {
-  background: var(--bg);
-  padding-bottom: 70px;
-  min-height: 100vh;
+.login-box h2 {text-align:center; color:var(--merah); margin-bottom:20px;}
+.login-box p {text-align:center; margin-bottom:15px; color:var(--abu);}
+.login-box input {
+  width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;
+  border-radius:8px; font-size:15px;
 }
-.toast {
-  position: fixed;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-100px);
-  background: var(--primary);
-  color: white;
-  padding: 12px 24px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  z-index: 9999;
-  transition: transform 0.3s ease;
-  font-weight: 500;
+.login-box button {
+  width:100%; padding:12px; background:var(--merah); color:var(--putih);
+  border:none; border-radius:8px; font-weight:bold; cursor:pointer;
+  margin-top:10px;
 }
-.toast.show {
-  transform: translateX(-50%) translateY(0);
-}
-.onboarding {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 30px;
-  z-index: 999;
-}
-.onboarding h1 {
-  color: white;
-  font-size: 28px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-.onboarding p {
-  color: rgba(255,255,255,0.9);
-  text-align: center;
-  margin-bottom: 30px;
-}
-.onboarding input {
-  width: 100%;
-  padding: 14px 18px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 16px;
-}
-.onboarding button {
-  width: 100%;
-  padding: 14px;
-  background: white;
-  color: var(--primary);
-  border: none;
-  border-radius: var(--radius);
-  font-weight: 600;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.onboarding button:hover {
-  transform: translateY(-2px);
-}
+
 .header {
-  position: sticky;
-  top: 0;
-  background: var(--primary);
-  color: white;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
+  background:var(--merah); color:var(--putih); padding:15px 20px;
+  display:flex; justify-content:space-between; align-items:center;
 }
-.header h2 {
-  font-size: 20px;
+.tombol-keluar {
+  background:var(--putih); color:var(--merah); border:none; padding:8px 15px;
+  border-radius:6px; cursor:pointer; font-weight:bold;
 }
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-  z-index: 100;
+.wadah {padding:20px; max-width:1200px; margin:0 auto;}
+.menu {
+  display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;
 }
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 12px;
-  color: #666;
-  cursor: pointer;
-  position: relative;
+.menu button {
+  padding:10px 18px; border:none; border-radius:8px; cursor:pointer;
+  background:#eee; font-weight:500;
 }
-.nav-item.active {
-  color: var(--primary);
+.menu button.aktif {background:var(--merah); color:var(--putih);}
+.kotak {
+  background:var(--putih); padding:20px; border-radius:var(--radius);
+  box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:15px;
 }
-.nav-item .badge {
-  position: absolute;
-  top: -5px;
-  right: -8px;
-  background: var(--primary);
-  color: white;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 10px;
+.kotak h3 {color:var(--merah); margin-bottom:15px;}
+label {font-weight:500; display:block; margin-top:8px;}
+input {
+  width:100%; padding:10px; margin:6px 0; border:1px solid #ddd;
+  border-radius:6px; font-size:14px;
 }
-.container {
-  padding: 15px;
-}
-.banner {
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  color: white;
-  padding: 20px;
-  border-radius: var(--radius);
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 600;
-  font-size: 17px;
-}
-.search-bar {
-  width: 100%;
-  padding: 12px 15px;
-  border: none;
-  border-radius: var(--radius);
-  margin-bottom: 15px;
-  font-size: 15px;
-  box-shadow: var(--shadow);
-}
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  overflow-x: auto;
-  padding-bottom: 5px;
-}
-.tab {
-  padding: 8px 16px;
-  background: white;
-  border-radius: 20px;
-  font-size: 14px;
-  white-space: nowrap;
-  cursor: pointer;
-}
-.tab.active {
-  background: var(--primary);
-  color: white;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-}
-.card {
-  background: white;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-.card-img {
-  width: 100%;
-  height: 140px;
-  background: var(--secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-}
-.badge-diskon {
-  position: absolute;
-  background: var(--primary);
-  color: white;
-  padding: 4px 8px;
-  font-size: 11px;
-  border-radius: 0 0 8px 0;
-}
-.card-body {
-  padding: 12px;
-}
-.nama-produk {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-.harga-coret {
-  font-size: 12px;
-  color: #999;
-  text-decoration: line-through;
-}
-.harga {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--primary);
-  margin: 2px 0 8px;
-}
-.rating {
-  font-size: 12px;
-  color: #f59e0b;
-  margin-bottom: 8px;
-}
-.btn-beli {
-  width: 100%;
-  padding: 8px;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 13px;
-  cursor: pointer;
-}
-.detail-img {
-  width: 100%;
-  height: 250px;
-  background: var(--secondary);
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 60px;
-  margin-bottom: 20px;
-}
-.btn-kembali {
-  background: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: var(--radius);
-  margin-bottom: 15px;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-}
-.btn-grup {
-  display: flex;
-  gap: 10px;
-  margin: 20px 0;
-}
-.btn-grup button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: var(--radius);
-  font-weight: 600;
-  cursor: pointer;
-}
-.btn-beli-sekarang {
-  background: var(--primary);
-  color: white;
-}
-.btn-keranjang {
-  background: white;
-  color: var(--primary);
-  border: 1px solid var(--primary) !important;
-}
-.ulasan {
-  background: white;
-  border-radius: var(--radius);
-  padding: 15px;
-  margin-top: 20px;
-}
-.komentar {
-  display: flex;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-}
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--secondary);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-.item-keranjang {
-  background: white;
-  border-radius: var(--radius);
-  padding: 15px;
-  margin-bottom: 10px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.total-box {
-  background: white;
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-top: 20px;
-}
-.baris-total {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.baris-total.bold {
-  font-weight: 700;
-  font-size: 17px;
-  color: var(--primary);
-}
-.card-profil {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  border-radius: var(--radius);
-  padding: 25px;
-  color: white;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.avatar-profil {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: white;
-  margin: 0 auto 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-}
-.badge-vip {
-  background: gold;
-  color: #333;
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  display: inline-block;
-  margin-top: 10px;
-}
-.menu-profil {
-  background: white;
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.menu-item {
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-}
-.menu-item.merah {
-  color: var(--primary);
-  font-weight: 600;
-}
-.sidebar-admin {
-  background: white;
-  border-radius: var(--radius);
-  padding: 15px;
-  margin-bottom: 20px;
-}
-.menu-admin {
-  padding: 12px;
-  margin: 5px 0;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.menu-admin.aktif {
-  background: var(--primary);
-  color: white;
-}
-.stat-box {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.stat {
-  background: white;
-  padding: 15px 10px;
-  border-radius: var(--radius);
-  text-align: center;
-}
-.stat h3 {
-  font-size: 20px;
-  color: var(--primary);
+.tombol-simpan {
+  background:var(--merah); color:white; border:none; padding:10px 20px;
+  border-radius:6px; cursor:pointer; margin-top:10px;
 }
 table {
-  width: 100%;
-  background: white;
-  border-radius: var(--radius);
-  overflow: hidden;
-  margin-top: 15px;
+  width:100%; border-collapse:collapse; margin-top:10px;
 }
 th, td {
-  padding: 10px;
-  text-align: left;
-  font-size: 13px;
+  padding:10px; text-align:left; border-bottom:1px solid #eee; font-size:14px;
 }
-th {
-  background: var(--primary);
-  color: white;
-}
-input, button {
-  outline: none;
-}
-.halaman {
-  display: none;
-}
-.halaman.aktif {
-  display: block;
-}
+th {background:var(--merah); color:white;}
+.halaman {display:none;}
+.halaman.tampil {display:block;}
 </style>
 </head>
 <body>
 
-<div class="toast" id="toast"></div>
-
-<div class="onboarding" id="onboarding">
-  <h1>Selamat Datang di Rani Shopee 🛍️</h1>
-  <p>Belanja mudah, murah, dan terpercaya</p>
-  
-  <div id="langkah1">
-    <input type="email" id="email" placeholder="Masukkan Email">
-    <button onclick="lanjutLangkah2()">Lanjutkan</button>
-  </div>
-  
-  <div id="langkah2" style="display:none;">
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
+<div id="hal_login" class="halaman tampil">
+  <div class="login-box">
+    <h2><i class="fas fa-store"></i> Rani Shopee</h2>
+    <p>Login Admin Inventaris</p>
+    <input type="text" id="user" placeholder="Username">
+    <input type="password" id="pass" placeholder="Password">
     <button onclick="login()">Masuk</button>
-    <p style="margin-top:15px; font-size:13px;">
-      Akun Admin: Nasywa / 12456<br>
-      Akun Pelanggan: Syifa / 1234
-    </p>
   </div>
 </div>
 
-<div class="header" id="header" style="display:none;">
-  <h2>🛍️ Rani Shopee</h2>
-</div>
-
-<div class="container" id="konten" style="display:none;">
-  <div class="halaman" id="hal_beranda">
-    <div class="banner">🔥 FLASH SALE 9.9 - DISKON SAMPAI 90%!</div>
-    <input type="text" class="search-bar" placeholder="Cari produk favoritmu...">
-    <div class="tabs">
-      <div class="tab active">Semua</div>
-      <div class="tab">Makanan</div>
-      <div class="tab">Pakaian</div>
-      <div class="tab">Promo</div>
-    </div>
-    <h3 style="margin-bottom:15px;">Rekomendasi Untukmu ✨</h3>
-    <div class="grid" id="grid_produk"></div>
+<div id="hal_dashboard" class="halaman">
+  <div class="header">
+    <h2><i class="fas fa-store"></i> Rani Shopee - Panel Admin</h2>
+    <button class="tombol-keluar" onclick="keluar()">Keluar</button>
   </div>
 
-  <div class="halaman" id="hal_detail">
-    <button class="btn-kembali" onclick="bukaHalaman('beranda')">← Kembali</button>
-    <div id="isi_detail"></div>
-  </div>
-
-  <div class="halaman" id="hal_keranjang">
-    <h2>Keranjang Belanja 🛒</h2>
-    <div id="isi_keranjang"></div>
-  </div>
-
-  <div class="halaman" id="hal_profil">
-    <div class="card-profil">
-      <div class="avatar-profil">👩</div>
-      <h2 id="nama_profil"></h2>
-      <p id="email_profil"></p>
-      <div class="badge-vip">VIP Member</div>
-    </div>
-    <div class="menu-profil">
-      <div class="menu-item">📦 Pesanan Saya</div>
-      <div class="menu-item">💳 RaniPay</div>
-      <div class="menu-item">🎟️ Voucher Saya</div>
-      <div class="menu-item merah" onclick="keluar()">🚪 Keluar Akun</div>
-    </div>
-  </div>
-
-  <div class="halaman" id="hal_admin">
-    <div class="sidebar-admin">
-      <h3 style="text-align:center; margin-bottom:15px;">Panel Admin</h3>
-      <div class="menu-admin aktif" onclick="bukaAdmin('dashboard')">📊 Dashboard</div>
-      <div class="menu-admin" onclick="bukaAdmin('input')">➕ Input Barang</div>
-      <div class="menu-admin" onclick="bukaAdmin('databarang')">📋 Data Barang</div>
-      <div class="menu-admin" onclick="bukaAdmin('pesanan')">🛒 Pesanan</div>
+  <div class="wadah">
+    <div class="menu">
+      <button class="aktif" onclick="bukaMenu('input')"><i class="fas fa-plus"></i> Input Barang</button>
+      <button onclick="bukaMenu('lihat')"><i class="fas fa-list"></i> Lihat Barang</button>
+      <button onclick="bukaMenu('laporan-harian')"><i class="fas fa-calendar-day"></i> Laporan Harian</button>
+      <button onclick="bukaMenu('laporan-bulanan')"><i class="fas fa-calendar-alt"></i> Laporan Bulanan</button>
+      <button onclick="bukaMenu('laporan-tahunan')"><i class="fas fa-calendar"></i> Laporan Tahunan</button>
     </div>
 
-    <div id="admin_dashboard">
-      <h3>Statistik Toko</h3>
-      <div class="stat-box">
-        <div class="stat"><h3 id="total_barang">0</h3><p>Total Barang</p></div>
-        <div class="stat"><h3 id="total_stok">0</h3><p>Total Stok</p></div>
-        <div class="stat"><h3 id="total_pesanan">0</h3><p>Total Pesanan</p></div>
+    <div id="menu-input" class="halaman tampil">
+      <div class="kotak">
+        <h3>Tambah Data Barang</h3>
+        <label>Nama Barang</label>
+        <input type="text" id="nm_brg" placeholder="Masukkan nama barang">
+        <label>Kategori</label>
+        <input type="text" id="kat_brg" placeholder="Contoh: Makanan, Pakaian">
+        <label>Harga Beli</label>
+        <input type="number" id="hb_brg" placeholder="0">
+        <label>Harga Jual</label>
+        <input type="number" id="hj_brg" placeholder="0">
+        <label>Stok Masuk</label>
+        <input type="number" id="stok_brg" placeholder="0">
+        <button class="tombol-simpan" onclick="simpanBarang()">Simpan Barang</button>
       </div>
     </div>
 
-    <div id="admin_input" style="display:none;">
-      <h3>Tambah Barang Baru</h3>
-      <input type="text" id="nm_barang" placeholder="Nama Barang" style="width:100%; margin:10px 0;">
-      <input type="number" id="hrg_barang" placeholder="Harga" style="width:100%; margin:10px 0;">
-      <input type="number" id="stok_barang" placeholder="Stok" style="width:100%; margin:10px 0;">
-      <input type="text" id="kat_barang" placeholder="Kategori" style="width:100%; margin:10px 0;">
-      <button onclick="simpanBarang()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:var(--radius);">Simpan Barang</button>
+    <div id="menu-lihat" class="halaman">
+      <div class="kotak">
+        <h3>Daftar Semua Barang</h3>
+        <table id="tabel_brg">
+          <thead>
+            <tr><th>No</th><th>Nama</th><th>Kategori</th><th>Harga Beli</th><th>Harga Jual</th><th>Stok</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
 
-    <div id="admin_databarang" style="display:none;">
-      <h3>Daftar Semua Barang</h3>
-      <table id="tabel_barang"></table>
+    <div id="menu-laporan-harian" class="halaman">
+      <div class="kotak">
+        <h3>Laporan Inventaris Harian</h3>
+        <p>Pilih Tanggal: <input type="date" id="tgl_harian"></p>
+        <button class="tombol-simpan" onclick="muatLaporan('harian')">Tampilkan Laporan</button>
+        <div id="isi_laporan_harian" style="margin-top:15px;"></div>
+      </div>
     </div>
 
-    <div id="admin_pesanan" style="display:none;">
-      <h3>Riwayat Pesanan</h3>
-      <p style="text-align:center; padding:30px; background:white; border-radius:var(--radius);">Belum ada pesanan baru</p>
+    <div id="menu-laporan-bulanan" class="halaman">
+      <div class="kotak">
+        <h3>Laporan Inventaris Bulanan</h3>
+        <p>Pilih Bulan & Tahun: <input type="month" id="bln_bulanan"></p>
+        <button class="tombol-simpan" onclick="muatLaporan('bulanan')">Tampilkan Laporan</button>
+        <div id="isi_laporan_bulanan" style="margin-top:15px;"></div>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="bottom-nav" id="nav_bawah" style="display:none;">
-  <div class="nav-item active" onclick="bukaHalaman('beranda')">
-    <span>🏠</span> Beranda
-  </div>
-  <div class="nav-item" onclick="bukaHalaman('keranjang')">
-    <span>🛒</span> Keranjang
-    <span class="badge" id="jumlah_keranjang">0</span>
-  </div>
-  <div class="nav-item" onclick="bukaHalaman('profil')">
-    <span>👤</span> Akun
+    <div id="menu-laporan-tahunan" class="halaman">
+      <div class="kotak">
+        <h3>Laporan Inventaris Tahunan</h3>
+        <p>Pilih Tahun: <input type="number" id="thn_tahunan" placeholder="Contoh: 2026"></p>
+        <button class="tombol-simpan" onclick="muatLaporan('tahunan')">Tampilkan Laporan</button>
+        <div id="isi_laporan_tahunan" style="margin-top:15px;"></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-let dataProduk = [
-  {id:1, nama:"Ayam Geprek", harga:15000, lama:25000, diskon:40, rating:4.8, img:"🍗", kategori:"Makanan"},
-  {id:2, nama:"Nasi Goreng Spesial", harga:12000, lama:20000, diskon:40, rating:4.7, img:"🍚", kategori:"Makanan"},
-  {id:3, nama:"Matcha Latte", harga:18000, lama:25000, diskon:28, rating:4.9, img:"🍵", kategori:"Makanan"},
-  {id:4, nama:"Es Krim Mochi", harga:10000, lama:18000, diskon:44, rating:4.6, img:"🍨", kategori:"Makanan"},
-  {id:5, nama:"Cardigan Merah", harga:75000, lama:120000, diskon:37, rating:4.8, img:"🧥", kategori:"Pakaian"},
-  {id:6, nama:"Sweater Oversize", harga:65000, lama:100000, diskon:35, rating:4.7, img:"👕", kategori:"Pakaian"}
-];
+const AKUN = {user: "Anggi", pass: "123456"};
+let dataBarang = JSON.parse(localStorage.getItem("dataBarang")) || [];
 
-if(!localStorage.getItem('barang')) localStorage.setItem('barang', JSON.stringify(dataProduk));
-if(!localStorage.getItem('mochiCart')) localStorage.setItem('mochiCart', '[]');
-
-let pengguna = null;
-let keranjang = JSON.parse(localStorage.getItem('mochiCart'));
-
-function tampilPesan(teks){
-  const t = document.getElementById('toast');
-  t.innerText = teks;
-  t.classList.add('show');
-  setTimeout(()=> t.classList.remove('show'), 2500);
-}
-
-function lanjutLangkah2(){
-  const email = document.getElementById('email').value;
-  if(!email) return tampilPesan('Isi email terlebih dahulu!');
-  document.getElementById('langkah1').style.display = 'none';
-  document.getElementById('langkah2').style.display = 'block';
-}
-
-function login(){
-  const user = document.getElementById('username').value;
-  const pass = document.getElementById('password').value;
-  
-  if(user === 'Nasywa' && pass === '12456'){
-    pengguna = {nama:'Nasywa', email:'admin@ranishopee.com', role:'admin'};
-  } else if(user === 'Syifa' && pass === '1234'){
-    pengguna = {nama:'Syifa', email:'syifa@email.com', role:'customer'};
+function login() {
+  const u = document.getElementById("user").value;
+  const p = document.getElementById("pass").value;
+  if(u === AKUN.user && p === AKUN.pass) {
+    document.getElementById("hal_login").classList.remove("tampil");
+    document.getElementById("hal_dashboard").classList.add("tampil");
+    tampilTabel();
   } else {
-    return tampilPesan('Username atau password salah!');
+    alert("Username atau Password salah!");
   }
-
-  localStorage.setItem('mochiUser', JSON.stringify(pengguna));
-  masukAplikasi();
 }
 
-function masukAplikasi(){
-  document.getElementById('onboarding').style.display = 'none';
-  document.getElementById('header').style.display = 'block';
-  document.getElementById('konten').style.display = 'block';
-  
-  if(pengguna.role === 'customer'){
-    document.getElementById('nav_bawah').style.display = 'flex';
-    document.getElementById('nama_profil').innerText = pengguna.nama;
-    document.getElementById('email_profil').innerText = pengguna.email;
-    bukaHalaman('beranda');
-    tampilProduk();
-  } else {
-    bukaHalaman('admin');
-    muatDataAdmin();
-  }
-  updateBadgeKeranjang();
+function bukaMenu(nama) {
+  document.querySelectorAll(".menu button").forEach(b => b.classList.remove("aktif"));
+  event.target.classList.add("aktif");
+  document.querySelectorAll("[id^='menu-']").forEach(m => m.classList.remove("tampil"));
+  document.getElementById(`menu-${nama}`).classList.add("tampil");
 }
 
-function bukaHalaman(nama){
-  document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
-  document.getElementById(`hal_${nama}`).classList.add('aktif');
-  if(nama === 'keranjang') tampilKeranjang();
-}
-
-function bukaAdmin(menu){
-  document.querySelectorAll('#hal_admin > div').forEach(d => d.style.display = 'none');
-  document.getElementById(`admin_${menu}`).style.display = 'block';
-  document.querySelectorAll('.menu-admin').forEach(m => m.classList.remove('aktif'));
-  event.target.classList.add('aktif');
-  if(menu === 'databarang') muatTabelBarang();
-}
-
-function tampilProduk(){
-  const grid = document.getElementById('grid_produk');
-  const produk = JSON.parse(localStorage.getItem('barang')) || dataProduk;
-  grid.innerHTML = '';
-  
-  produk.forEach(p => {
-    grid.innerHTML += `
-    <div class="card" onclick="bukaDetail(${p.id})">
-      <div style="position:relative;">
-        <div class="card-img">${p.img}</div>
-        <div class="badge-diskon">-${p.diskon}%</div>
-      </div>
-      <div class="card-body">
-        <div class="nama-produk">${p.nama}</div>
-        <div class="harga-coret">Rp ${p.lama.toLocaleString('id-ID')}</div>
-        <div class="harga">Rp ${p.harga.toLocaleString('id-ID')}</div>
-        <div class="rating">⭐ ${p.rating}</div>
-        <button class="btn-beli" onclick="event.stopPropagation(); tambahKeranjang(${p.id})">🛒 Beli</button>
-      </div>
-    </div>`;
-  });
-}
-
-function bukaDetail(id){
-  const produk = JSON.parse(localStorage.getItem('barang')).find(p => p.id === id);
-  const isi = document.getElementById('isi_detail');
-  isi.innerHTML = `
-  <div class="detail-img">${produk.img}</div>
-  <h2>${produk.nama}</h2>
-  <div class="harga-coret">Rp ${produk.lama.toLocaleString('id-ID')}</div>
-  <div class="harga">Rp ${produk.harga.toLocaleString('id-ID')}</div>
-  <p style="margin:15px 0; color:#555;">Produk berkualitas dari Rani Shopee, aman dan terpercaya ya!</p>
-  <div class="btn-grup">
-    <button class="btn-beli-sekarang" onclick="tambahKeranjang(${produk.id}); tampilPesan('Langsung dibeli ya! 🎉')">🛒 Beli Sekarang</button>
-    <button class="btn-keranjang" onclick="tambahKeranjang(${produk.id})">+ Keranjang</button>
-  </div>
-  <div class="ulasan">
-    <h4>Ulasan Pembeli 💬</h4>
-    <div class="komentar"><div class="avatar">👩</div><div><b>Siti:</b> Bagus banget! 5/5 ⭐</div></div>
-    <div class="komentar"><div class="avatar">👩</div><div><b>Dewi:</b> Sesuai deskripsi, recomended!</div></div>
-    <div class="komentar"><div class="avatar">👩</div><div><b>Lina:</b> Bakal beli lagi nanti 😍</div></div>
-  </div>`;
-  bukaHalaman('detail');
-}
-
-function tambahKeranjang(id){
-  const produk = JSON.parse(localStorage.getItem('barang')).find(p => p.id === id);
-  keranjang.push(produk);
-  localStorage.setItem('mochiCart', JSON.stringify(keranjang));
-  updateBadgeKeranjang();
-  tampilPesan('Ditambahkan ke keranjang ✅');
-}
-
-function updateBadgeKeranjang(){
-  document.getElementById('jumlah_keranjang').innerText = keranjang.length;
-}
-
-function tampilKeranjang(){
-  const kotak = document.getElementById('isi_keranjang');
-  if(keranjang.length === 0){
-    kotak.innerHTML = '<p style="text-align:center; padding:30px;">Keranjangmu masih kosong 😢</p>';
-    return;
-  }
-
-  let subtotal = 0;
-  kotak.innerHTML = '';
-  keranjang.forEach((item, i) => {
-    subtotal += item.harga;
-    kotak.innerHTML += `
-    <div class="item-keranjang">
-      <input type="checkbox" checked>
-      <div style="font-size:30px;">${item.img}</div>
-      <div style="flex:1;">
-        <div style="font-weight:600;">${item.nama}</div>
-        <div style="color:var(--primary);">Rp ${item.harga.toLocaleString('id-ID')}</div>
-      </div>
-      <button style="background:none; border:none; color:var(--primary); font-size:18px;" onclick="hapusItem(${i})">×</button>
-    </div>`;
-  });
-
-  const ongkir = 20000;
-  const total = subtotal + ongkir;
-  kotak.innerHTML += `
-  <div class="total-box">
-    <div class="baris-total"><span>Subtotal</span><span>Rp ${subtotal.toLocaleString('id-ID')}</span></div>
-    <div class="baris-total"><span>Ongkos Kirim</span><span>Rp ${ongkir.toLocaleString('id-ID')}</span></div>
-    <div class="baris-total bold"><span>Total</span><span>Rp ${total.toLocaleString('id-ID')}</span></div>
-    <button style="width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:var(--radius); margin-top:15px; font-weight:600;" onclick="checkout()">Bayar Sekarang</button>
-  </div>`;
-}
-
-function hapusItem(index){
-  keranjang.splice(index, 1);
-  localStorage.setItem('mochiCart', JSON.stringify(keranjang));
-  tampilKeranjang();
-  updateBadgeKeranjang();
-}
-
-function checkout(){
-  keranjang = [];
-  localStorage.setItem('mochiCart', '[]');
-  tampilKeranjang();
-  updateBadgeKeranjang();
-  tampilPesan('Checkout Berhasil! Terima kasih ya 🎉');
-}
-
-function keluar(){
-  localStorage.removeItem('mochiUser');
-  keranjang = [];
-  localStorage.setItem('mochiCart', '[]');
-  location.reload();
-}
-
-function muatDataAdmin(){
-  const barang = JSON.parse(localStorage.getItem('barang'));
-  document.getElementById('total_barang').innerText = barang.length;
-  document.getElementById('total_stok').innerText = barang.length * 100;
-  document.getElementById('total_pesanan').innerText = Math.floor(Math.random()*50);
-}
-
-function simpanBarang(){
-  const barang = JSON.parse(localStorage.getItem('barang'));
-  const baru = {
-    id: barang.length+1,
-    nama: document.getElementById('nm_barang').value,
-    harga: parseInt(document.getElementById('hrg_barang').value),
-    lama: parseInt(document.getElementById('hrg_barang').value)*1.3,
-    diskon: Math.floor(Math.random()*50),
-    rating: (4.5 + Math.random()*0.5).toFixed(1),
-    img:"📦",
-    kategori: document.getElementById('kat_barang').value
+function simpanBarang() {
+  const brg = {
+    id: Date.now(),
+    nama: document.getElementById("nm_brg").value,
+    kategori: document.getElementById("kat_brg").value,
+    beli: document.getElementById("hb_brg").value,
+    jual: document.getElementById("hj_brg").value,
+    stok: document.getElementById("stok_brg").value,
+    tanggal: new Date().toISOString()
   };
-  barang.push(baru);
-  localStorage.setItem('barang', JSON.stringify(barang));
-  tampilPesan('Barang berhasil ditambahkan!');
-  muatTabelBarang();
-  muatDataAdmin();
+  if(!brg.nama || !brg.beli || !brg.jual || !brg.stok) return alert("Lengkapi semua data!");
+  dataBarang.push(brg);
+  localStorage.setItem("dataBarang", JSON.stringify(dataBarang));
+  alert("Barang berhasil disimpan!");
+  document.querySelectorAll("#menu-input input").forEach(i => i.value = "");
+  tampilTabel();
 }
 
-function muatTabelBarang(){
-  const barang = JSON.parse(localStorage.getItem('barang'));
-  const tabel = document.getElementById('tabel_barang');
-  tabel.innerHTML = '<tr><th>Nama</th><th>Harga</th><th>Kategori</th></tr>';
-  barang.forEach(b => {
-    tabel.innerHTML += `<tr><td>${b.nama}</td><td>Rp ${b.harga.toLocaleString('id-ID')}</td><td>${b.kategori}</td></tr>`;
+function tampilTabel() {
+  const tbody = document.querySelector("#tabel_brg tbody");
+  tbody.innerHTML = "";
+  dataBarang.forEach((b, i) => {
+    tbody.innerHTML += `
+    <tr>
+      <td>${i+1}</td>
+      <td>${b.nama}</td>
+      <td>${b.kategori}</td>
+      <td>Rp ${Number(b.beli).toLocaleString("id-ID")}</td>
+      <td>Rp ${Number(b.jual).toLocaleString("id-ID")}</td>
+      <td>${b.stok}</td>
+    </tr>`;
   });
 }
 
-window.onload = () => {
-  const sesi = localStorage.getItem('mochiUser');
-  if(sesi){
-    pengguna = JSON.parse(sesi);
-    masukAplikasi();
+function muatLaporan(jenis) {
+  let hasil = `<h4 style="color:var(--merah)">Data Laporan ${jenis.toUpperCase()}</h4>`;
+  if(dataBarang.length === 0) {
+    hasil += "<p>Belum ada data barang yang dimasukkan.</p>";
+  } else {
+    let totalStok = 0, totalNilai = 0;
+    hasil += "<table><thead><tr><th>Nama</th><th>Kategori</th><th>Stok</th><th>Nilai</th></tr></thead><tbody>";
+    dataBarang.forEach(b => {
+      totalStok += Number(b.stok);
+      totalNilai += Number(b.stok) * Number(b.beli);
+      hasil += `
+      <tr>
+        <td>${b.nama}</td><td>${b.kategori}</td><td>${b.stok}</td>
+        <td>Rp ${(b.stok * b.beli).toLocaleString("id-ID")}</td>
+      </tr>`;
+    });
+    hasil += `</tbody></table>
+    <p style="margin-top:10px; font-weight:bold;">Total Stok: ${totalStok} barang</p>
+    <p style="font-weight:bold;">Total Nilai Inventaris: Rp ${totalNilai.toLocaleString("id-ID")}</p>`;
   }
-};
+  document.getElementById(`isi_laporan_${jenis}`).innerHTML = hasil;
+}
+
+function keluar() {
+  if(confirm("Yakin ingin keluar?")) {
+    document.getElementById("hal_dashboard").classList.remove("tampil");
+    document.getElementById("hal_login").classList.add("tampil");
+    document.getElementById("user").value = "";
+    document.getElementById("pass").value = "";
+  }
+}
 </script>
 </body>
 </html>
+
+
+
+    

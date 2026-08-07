@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rani Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <!-- Form Login -->
+  <div id="login-container" class="card">
+    <h2>Selamat Datang di <span class="brand-name">Rani Shop</span></h2>
+    <p>Silakan masuk ke akun Anda</p>
+    
+    <div id="error-msg" class="error-msg"></div>
+
+    <form id="login-form">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Masukkan username" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Masukkan password" required>
+      </div>
+
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+  </div>
+
+  <!-- Dashboard setelah login -->
+  <div id="dashboard-container" class="card hidden">
+    <header class="dashboard-header">
+      <h1>Rani Shop</h1>
+      <button id="logout-btn" class="btn-logout">Logout</button>
+    </header>
+
+    <div class="welcome-box">
+      <h3 id="user-greeting"></h3>
+      <p id="user-role-badge" class="badge"></p>
+    </div>
+
+    <!-- Konten Khusus Admin -->
+    <div id="admin-content" class="content-section hidden">
+      <h3>Panel Admin</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h4>Total Penjualan</h4>
+          <p>Rp 15.000.000</p>
+        </div>
+        <div class="stat-card">
+          <h4>Total Pesanan</h4>
+          <p>128 Pesanan</p>
+        </div>
+        <div class="stat-card">
+          <h4>Stok Produk</h4>
+          <p>450 Items</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Konten Khusus Pelanggan -->
+    <div id="customer-content" class="content-section hidden">
+      <h3>Katalog Produk</h3>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-img">🛍️</div>
+          <h4>Pakaian Wanita Elegant</h4>
+          <p class="price">Rp 150.000</p>
+          <button class="btn-secondary">Beli Sekarang</button>
+        </div>
+        <div class="product-card">
+          <div class="product-img">👜</div>
+          <h4>Tas Fashion Premium</h4>
+          <p class="price">Rp 250.000</p>
+          <button class="btn-secondary">Beli Sekarang</button>
+        </div>
+        <div class="product-card">
+          <div class="product-img">👠</div>
+          <h4>Sepatu Cantik</h4>
+          <p class="price">Rp 200.000</p>
+          <button class="btn-secondary">Beli Sekarang</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

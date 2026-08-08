@@ -1,156 +1,85 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rani Shopee</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {--merah:#DC2626; --putih:#fff;}
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
-body{background:#f5f5f5;padding:20px;}
+// Data akun login
+const USERS = {
+  admin: {
+    username: "Anggi",
+    password: "54321",
+    role: "Admin"
+  },
+  pelanggan: {
+    username: "nasywa",
+    password: "4321",
+    role: "Pelanggan"
+  }
+};
 
-.login{max-width:400px;margin:100px auto;padding:30px;background:white;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-.login h2{text-align:center;color:#DC2626;margin-bottom:20px;}
-.login input{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px;}
-.login button{width:100%;padding:12px;background:#DC2626;color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
+// Element DOM
+const loginForm = document.getElementById("login-form");
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const errorMsg = document.getElementById("error-msg");
 
-.header{background:#DC2626;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center;}
-.tombol-keluar{background:white;color:#DC2626;border:none;padding:8px 15px;border-radius:6px;cursor:pointer;}
-.wadah{padding:20px;}
-.menu{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
-.menu button{padding:10px 15px;border:none;border-radius:8px;cursor:pointer;background:#eee;}
-.menu button.aktif{background:#DC2626;color:white;}
-.kotak{background:white;padding:20px;border-radius:12px;margin-bottom:15px;}
-input{width:100%;padding:10px;margin:6px 0;border:1px solid #ddd;border-radius:6px;}
-.tombol-simpan{background:#DC2626;color:white;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th,td{padding:10px;text-align:left;border-bottom:1px solid #eee;}
-th{background:#DC2626;color:white;}
-.halaman{display:none;}
-.halaman.tampil{display:block;}
-</style>
-</head>
-<body>
+const loginContainer = document.getElementById("login-container");
+const dashboardContainer = document.getElementById("dashboard-container");
 
-<div id="hal_login" class="halaman tampil">
-  <div class="login">
-    <h2><i class="fas fa-store"></i> Rani Shopee</h2>
-    <input type="text" id="user" placeholder="Username">
-    <input type="password" id="pass" placeholder="Password">
-    <button onclick="login()">Masuk Sekarang</button>
-  </div>
-</div>
+const userGreeting = document.getElementById("user-greeting");
+const userRoleBadge = document.getElementById("user-role-badge");
+const adminContent = document.getElementById("admin-content");
+const customerContent = document.getElementById("customer-content");
+const logoutBtn = document.getElementById("logout-btn");
 
-<div id="hal_dashboard" class="halaman">
-  <div class="header">
-    <h2>Rani Shopee - Admin</h2>
-    <button class="tombol-keluar" onclick="keluar()">Keluar</button>
-  </div>
-  <div class="wadah">
-    <div class="menu">
-      <button class="aktif" onclick="buka('input')">Input Barang</button>
-      <button onclick="buka('lihat')">Lihat Barang</button>
-      <button onclick="buka('laporan')">Laporan</button>
-    </div>
+// Handle Submit Form Login
+loginForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    <div id="m-input" class="halaman tampil">
-      <div class="kotak">
-        <h3>Tambah Barang</h3>
-        <input type="text" id="nm" placeholder="Nama Barang">
-        <input type="text" id="kt" placeholder="Kategori">
-        <input type="number" id="hb" placeholder="Harga Beli">
-        <input type="number" id="hj" placeholder="Harga Jual">
-        <input type="number" id="st" placeholder="Stok">
-        <button class="tombol-simpan" onclick="simpan()">Simpan</button>
-      </div>
-    </div>
+  const enteredUsername = usernameInput.value.trim();
+  const enteredPassword = passwordInput.value.trim();
 
-    <div id="m-lihat" class="halaman">
-      <div class="kotak">
-        <h3>Daftar Barang</h3>
-        <table id="tabel">
-          <thead><tr><th>No</th><th>Nama</th><th>Kategori</th><th>Harga</th><th>Stok</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
+  // Validasi Admin
+  if (
+    enteredUsername === USERS.admin.username &&
+    enteredPassword === USERS.admin.password
+  ) {
+    showDashboard(USERS.admin);
+  }
+  // Validasi Pelanggan
+  else if (
+    enteredUsername === USERS.pelanggan.username &&
+    enteredPassword === USERS.pelanggan.password
+  ) {
+    showDashboard(USERS.pelanggan);
+  }
+  // Jika Salah
+  else {
+    errorMsg.textContent = "Username atau password salah!";
+    errorMsg.style.display = "block";
+  }
+});
 
-    <div id="m-laporan" class="halaman">
-      <div class="kotak">
-        <h3>Laporan Harian / Bulanan / Tahunan</h3>
-        <div id="hasil_laporan"></div>
-      </div>
-    </div>
-  </div>
-</div>
+// Fungsi Menampilkan Dashboard
+function showDashboard(user) {
+  errorMsg.style.display = "none";
+  loginContainer.classList.add("hidden");
+  dashboardContainer.classList.remove("hidden");
 
-<script>
-const userBenar = "Anggi";
-const passBenar = "123456";
-let data = JSON.parse(localStorage.getItem("dataBarang")) || [];
+  userGreeting.textContent = `Selamat datang, ${user.username}!`;
+  userRoleBadge.textContent = user.role;
 
-function login(){
-  const u = document.getElementById("user").value.trim();
-  const p = document.getElementById("pass").value.trim();
-  if(u === userBenar && p === passBenar){
-    document.getElementById("hal_login").classList.remove("tampil");
-    document.getElementById("hal_dashboard").classList.add("tampil");
-    tampilTabel();
-    tampilLaporan();
-  }else{
-    alert("Salah! Gunakan Username: Anggi | Password: 123456");
+  if (user.role === "Admin") {
+    adminContent.classList.remove("hidden");
+    customerContent.classList.add("hidden");
+  } else {
+    customerContent.classList.remove("hidden");
+    adminContent.classList.add("hidden");
   }
 }
 
-function buka(nama){
-  document.querySelectorAll(".menu button").forEach(b=>b.classList.remove("aktif"));
-  event.target.classList.add("aktif");
-  document.querySelectorAll("[id^='m-']").forEach(m=>m.classList.remove("tampil"));
-  document.getElementById("m-"+nama).classList.add("tampil");
-}
+// Handle Logout
+logoutBtn.addEventListener("click", function () {
+  dashboardContainer.classList.add("hidden");
+  loginContainer.classList.remove("hidden");
 
-function simpan(){
-  const brg = {
-    nama:document.getElementById("nm").value,
-    kt:document.getElementById("kt").value,
-    hb:document.getElementById("hb").value,
-    hj:document.getElementById("hj").value,
-    st:document.getElementById("st").value
-  };
-  data.push(brg);
-  localStorage.setItem("dataBarang", JSON.stringify(data));
-  alert("Tersimpan!");
-  document.querySelectorAll("#m-input input").forEach(i=>i.value="");
-  tampilTabel();
-  tampilLaporan();
-}
-
-function tampilTabel(){
-  const b = document.querySelector("#tabel tbody");
-  b.innerHTML="";
-  data.forEach((x,i)=>{
-    b.innerHTML += `<tr><td>${i+1}</td><td>${x.nama}</td><td>${x.kt}</td><td>Rp ${x.hj}</td><td>${x.st}</td></tr>`;
-  });
-}
-
-function tampilLaporan(){
-  let totalStok = 0, totalNilai=0;
-  data.forEach(x=>{totalStok += Number(x.st); totalNilai += Number(x.st)*Number(x.hb);});
-  document.getElementById("hasil_laporan").innerHTML = `
-  <p>Total Barang: ${data.length}</p>
-  <p>Total Stok: ${totalStok}</p>
-  <p>Total Nilai: Rp ${totalNilai.toLocaleString()}</p>
-  `;
-}
-
-function keluar(){
-  if(confirm("Yakin keluar?")){
-    document.getElementById("hal_dashboard").classList.remove("tampil");
-    document.getElementById("hal_login").classList.add("tampil");
-  }
-}
-</script>
-</body>
-</html>
-
+  // Reset Form
+  usernameInput.value = "";
+  passwordInput.value = "";
+  errorMsg.style.display = "none";
+});

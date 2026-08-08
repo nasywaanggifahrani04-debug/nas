@@ -2,256 +2,262 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rani Shopee - Sistem Inventaris</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Rani Shopee</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root {
-  --merah: #DC2626;
-  --merah-muda: #FEE2E2;
-  --putih: #FFFFFF;
-  --abu: #666;
-  --radius: 12px;
+  --primary: #DC2626;
+  --secondary: #F87171;
+  --accent: #FFFFFF;
+  --bg: #FEE2E2;
+  --surface: #FFFFFF;
+  --radius: 18px;
+  --shadow: 0 4px 12px rgba(220,38,38,0.15);
 }
-* {margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif;}
-body {background:#f5f5f5;}
-
-.login-box {
-  max-width:400px; margin:100px auto; padding:30px;
-  background:var(--putih); border-radius:var(--radius);
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, sans-serif;
 }
-.login-box h2 {text-align:center; color:var(--merah); margin-bottom:20px;}
-.login-box p {text-align:center; margin-bottom:15px; color:var(--abu);}
-.login-box input {
-  width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;
-  border-radius:8px; font-size:15px;
-}
-.login-box button {
-  width:100%; padding:12px; background:var(--merah); color:var(--putih);
-  border:none; border-radius:8px; font-weight:bold; cursor:pointer;
-  margin-top:10px;
+body {
+  background: var(--bg);
+  padding-bottom: 80px;
+  min-height: 100vh;
 }
 
+/* Header */
 .header {
-  background:var(--merah); color:var(--putih); padding:15px 20px;
-  display:flex; justify-content:space-between; align-items:center;
+  position: sticky;
+  top: 0;
+  background: var(--primary);
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  box-shadow: var(--shadow);
+  z-index: 100;
 }
-.tombol-keluar {
-  background:var(--putih); color:var(--merah); border:none; padding:8px 15px;
-  border-radius:6px; cursor:pointer; font-weight:bold;
+
+/* Konten Halaman */
+.page {
+  display: none;
+  padding: 20px;
 }
-.wadah {padding:20px; max-width:1200px; margin:0 auto;}
-.menu {
-  display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;
+.page.active {
+  display: block;
 }
-.menu button {
-  padding:10px 18px; border:none; border-radius:8px; cursor:pointer;
-  background:#eee; font-weight:500;
+
+/* Produk */
+.produk-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
 }
-.menu button.aktif {background:var(--merah); color:var(--putih);}
-.kotak {
-  background:var(--putih); padding:20px; border-radius:var(--radius);
-  box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:15px;
+.produk-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 12px;
+  text-align: center;
+  box-shadow: var(--shadow);
 }
-.kotak h3 {color:var(--merah); margin-bottom:15px;}
-label {font-weight:500; display:block; margin-top:8px;}
-input {
-  width:100%; padding:10px; margin:6px 0; border:1px solid #ddd;
-  border-radius:6px; font-size:14px;
+.produk-card h3 {
+  color: var(--primary);
+  font-size: 15px;
+  margin: 8px 0;
 }
-.tombol-simpan {
-  background:var(--merah); color:white; border:none; padding:10px 20px;
-  border-radius:6px; cursor:pointer; margin-top:10px;
+.harga {
+  color: #B91C1C;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
-table {
-  width:100%; border-collapse:collapse; margin-top:10px;
+.btn-beli {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
 }
-th, td {
-  padding:10px; text-align:left; border-bottom:1px solid #eee; font-size:14px;
+.btn-beli:hover {
+  background: #B91C1C;
 }
-th {background:var(--merah); color:white;}
-.halaman {display:none;}
-.halaman.tampil {display:block;}
+
+/* Keranjang */
+.keranjang-item {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.total {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 15px;
+  margin-top: 10px;
+  font-weight: bold;
+  color: var(--primary);
+  text-align: right;
+}
+
+/* Navigasi Bawah */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--surface);
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+.nav-item {
+  text-align: center;
+  color: #888;
+  font-size: 12px;
+  cursor: pointer;
+}
+.nav-item.active {
+  color: var(--primary);
+  font-weight: bold;
+}
+.nav-item i {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 4px;
+}
 </style>
 </head>
 <body>
 
-<div id="hal_login" class="halaman tampil">
-  <div class="login-box">
-    <h2><i class="fas fa-store"></i> Rani Shopee</h2>
-    <p>Login Admin Inventaris</p>
-    <input type="text" id="user" placeholder="Username">
-    <input type="password" id="pass" placeholder="Password">
-    <button onclick="login()">Masuk</button>
+<!-- Header -->
+<div class="header">🛒 Rani Shopee</div>
+
+<!-- Halaman Utama -->
+<div id="beranda" class="page active">
+  <h2 style="color: var(--primary); margin-bottom: 15px;">Produk Terlaris</h2>
+  <div class="produk-grid" id="daftar-produk"></div>
+</div>
+
+<!-- Halaman Keranjang -->
+<div id="keranjang" class="page">
+  <h2 style="color: var(--primary); margin-bottom: 15px;">Keranjang Belanja</h2>
+  <div id="isi-keranjang"></div>
+  <div class="total" id="total-harga"></div>
+</div>
+
+<!-- Halaman Profil -->
+<div id="profil" class="page">
+  <h2 style="color: var(--primary); margin-bottom: 15px;">Profil Toko</h2>
+  <div class="produk-card">
+    <p><strong>Nama Toko:</strong> Rani Shopee</p>
+    <p><strong>Lokasi:</strong> Semarang, Jawa Tengah</p>
+    <p><strong>Kontak:</strong> 0812-xxxx-xxxx</p>
+    <p style="margin-top:10px; font-size:14px; color:#666;">Toko terpercaya menyediakan barang berkualitas harga hemat 😊</p>
   </div>
 </div>
 
-<div id="hal_dashboard" class="halaman">
-  <div class="header">
-    <h2><i class="fas fa-store"></i> Rani Shopee - Panel Admin</h2>
-    <button class="tombol-keluar" onclick="keluar()">Keluar</button>
+<!-- Navigasi Bawah -->
+<div class="bottom-nav">
+  <div class="nav-item active" data-halaman="beranda">
+    <i class="fas fa-home"></i>Beranda
   </div>
-
-  <div class="wadah">
-    <div class="menu">
-      <button class="aktif" onclick="bukaMenu('input')"><i class="fas fa-plus"></i> Input Barang</button>
-      <button onclick="bukaMenu('lihat')"><i class="fas fa-list"></i> Lihat Barang</button>
-      <button onclick="bukaMenu('laporan-harian')"><i class="fas fa-calendar-day"></i> Laporan Harian</button>
-      <button onclick="bukaMenu('laporan-bulanan')"><i class="fas fa-calendar-alt"></i> Laporan Bulanan</button>
-      <button onclick="bukaMenu('laporan-tahunan')"><i class="fas fa-calendar"></i> Laporan Tahunan</button>
-    </div>
-
-    <div id="menu-input" class="halaman tampil">
-      <div class="kotak">
-        <h3>Tambah Data Barang</h3>
-        <label>Nama Barang</label>
-        <input type="text" id="nm_brg" placeholder="Masukkan nama barang">
-        <label>Kategori</label>
-        <input type="text" id="kat_brg" placeholder="Contoh: Makanan, Pakaian">
-        <label>Harga Beli</label>
-        <input type="number" id="hb_brg" placeholder="0">
-        <label>Harga Jual</label>
-        <input type="number" id="hj_brg" placeholder="0">
-        <label>Stok Masuk</label>
-        <input type="number" id="stok_brg" placeholder="0">
-        <button class="tombol-simpan" onclick="simpanBarang()">Simpan Barang</button>
-      </div>
-    </div>
-
-    <div id="menu-lihat" class="halaman">
-      <div class="kotak">
-        <h3>Daftar Semua Barang</h3>
-        <table id="tabel_brg">
-          <thead>
-            <tr><th>No</th><th>Nama</th><th>Kategori</th><th>Harga Beli</th><th>Harga Jual</th><th>Stok</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="menu-laporan-harian" class="halaman">
-      <div class="kotak">
-        <h3>Laporan Inventaris Harian</h3>
-        <p>Pilih Tanggal: <input type="date" id="tgl_harian"></p>
-        <button class="tombol-simpan" onclick="muatLaporan('harian')">Tampilkan Laporan</button>
-        <div id="isi_laporan_harian" style="margin-top:15px;"></div>
-      </div>
-    </div>
-
-    <div id="menu-laporan-bulanan" class="halaman">
-      <div class="kotak">
-        <h3>Laporan Inventaris Bulanan</h3>
-        <p>Pilih Bulan & Tahun: <input type="month" id="bln_bulanan"></p>
-        <button class="tombol-simpan" onclick="muatLaporan('bulanan')">Tampilkan Laporan</button>
-        <div id="isi_laporan_bulanan" style="margin-top:15px;"></div>
-      </div>
-    </div>
-
-    <div id="menu-laporan-tahunan" class="halaman">
-      <div class="kotak">
-        <h3>Laporan Inventaris Tahunan</h3>
-        <p>Pilih Tahun: <input type="number" id="thn_tahunan" placeholder="Contoh: 2026"></p>
-        <button class="tombol-simpan" onclick="muatLaporan('tahunan')">Tampilkan Laporan</button>
-        <div id="isi_laporan_tahunan" style="margin-top:15px;"></div>
-      </div>
-    </div>
+  <div class="nav-item" data-halaman="keranjang">
+    <i class="fas fa-shopping-cart"></i>Keranjang
+  </div>
+  <div class="nav-item" data-halaman="profil">
+    <i class="fas fa-user"></i>Profil
   </div>
 </div>
 
 <script>
-const AKUN = {user: "Anggi", pass: "123456"};
-let dataBarang = JSON.parse(localStorage.getItem("dataBarang")) || [];
+// Data Produk
+const produk = [
+  {nama:"Kaos Polos", harga:45000},
+  {nama:"Hoodie Polos", harga:95000},
+  {nama:"Celana Jeans", harga:75000},
+  {nama:"Topi Baseball", harga:30000},
+  {nama:"Tas Sekolah", harga:65000},
+  {nama:"Sepatu Sneakers", harga:140000}
+];
 
-function login() {
-  const u = document.getElementById("user").value;
-  const p = document.getElementById("pass").value;
-  if(u === AKUN.user && p === AKUN.pass) {
-    document.getElementById("hal_login").classList.remove("tampil");
-    document.getElementById("hal_dashboard").classList.add("tampil");
-    tampilTabel();
-  } else {
-    alert("Username atau Password salah!");
-  }
-}
+let keranjang = [];
 
-function bukaMenu(nama) {
-  document.querySelectorAll(".menu button").forEach(b => b.classList.remove("aktif"));
-  event.target.classList.add("aktif");
-  document.querySelectorAll("[id^='menu-']").forEach(m => m.classList.remove("tampil"));
-  document.getElementById(`menu-${nama}`).classList.add("tampil");
-}
-
-function simpanBarang() {
-  const brg = {
-    id: Date.now(),
-    nama: document.getElementById("nm_brg").value,
-    kategori: document.getElementById("kat_brg").value,
-    beli: document.getElementById("hb_brg").value,
-    jual: document.getElementById("hj_brg").value,
-    stok: document.getElementById("stok_brg").value,
-    tanggal: new Date().toISOString()
-  };
-  if(!brg.nama || !brg.beli || !brg.jual || !brg.stok) return alert("Lengkapi semua data!");
-  dataBarang.push(brg);
-  localStorage.setItem("dataBarang", JSON.stringify(dataBarang));
-  alert("Barang berhasil disimpan!");
-  document.querySelectorAll("#menu-input input").forEach(i => i.value = "");
-  tampilTabel();
-}
-
-function tampilTabel() {
-  const tbody = document.querySelector("#tabel_brg tbody");
-  tbody.innerHTML = "";
-  dataBarang.forEach((b, i) => {
-    tbody.innerHTML += `
-    <tr>
-      <td>${i+1}</td>
-      <td>${b.nama}</td>
-      <td>${b.kategori}</td>
-      <td>Rp ${Number(b.beli).toLocaleString("id-ID")}</td>
-      <td>Rp ${Number(b.jual).toLocaleString("id-ID")}</td>
-      <td>${b.stok}</td>
-    </tr>`;
+// Tampilkan Produk
+function tampilProduk(){
+  const wadah = document.getElementById("daftar-produk");
+  wadah.innerHTML = "";
+  produk.forEach((item, idx)=>{
+    wadah.innerHTML += `
+      <div class="produk-card">
+        <h3>${item.nama}</h3>
+        <div class="harga">Rp ${item.harga.toLocaleString()}</div>
+        <button class="btn-beli" onclick="tambahKeranjang(${idx})">+ Masukkan Keranjang</button>
+      </div>
+    `;
   });
 }
 
-function muatLaporan(jenis) {
-  let hasil = `<h4 style="color:var(--merah)">Data Laporan ${jenis.toUpperCase()}</h4>`;
-  if(dataBarang.length === 0) {
-    hasil += "<p>Belum ada data barang yang dimasukkan.</p>";
-  } else {
-    let totalStok = 0, totalNilai = 0;
-    hasil += "<table><thead><tr><th>Nama</th><th>Kategori</th><th>Stok</th><th>Nilai</th></tr></thead><tbody>";
-    dataBarang.forEach(b => {
-      totalStok += Number(b.stok);
-      totalNilai += Number(b.stok) * Number(b.beli);
-      hasil += `
-      <tr>
-        <td>${b.nama}</td><td>${b.kategori}</td><td>${b.stok}</td>
-        <td>Rp ${(b.stok * b.beli).toLocaleString("id-ID")}</td>
-      </tr>`;
-    });
-    hasil += `</tbody></table>
-    <p style="margin-top:10px; font-weight:bold;">Total Stok: ${totalStok} barang</p>
-    <p style="font-weight:bold;">Total Nilai Inventaris: Rp ${totalNilai.toLocaleString("id-ID")}</p>`;
-  }
-  document.getElementById(`isi_laporan_${jenis}`).innerHTML = hasil;
+// Tambah ke Keranjang
+function tambahKeranjang(idx){
+  keranjang.push(produk[idx]);
+  tampilKeranjang();
 }
 
-function keluar() {
-  if(confirm("Yakin ingin keluar?")) {
-    document.getElementById("hal_dashboard").classList.remove("tampil");
-    document.getElementById("hal_login").classList.add("tampil");
-    document.getElementById("user").value = "";
-    document.getElementById("pass").value = "";
-  }
+// Tampilkan Keranjang
+function tampilKeranjang(){
+  const wadah = document.getElementById("isi-keranjang");
+  const wadahTotal = document.getElementById("total-harga");
+  let total = 0;
+  wadah.innerHTML = "";
+
+  keranjang.forEach((item, i)=>{
+    total += item.harga;
+    wadah.innerHTML += `
+      <div class="keranjang-item">
+        <div>
+          <div>${item.nama}</div>
+          <small>Rp ${item.harga.toLocaleString()}</small>
+        </div>
+        <button style="background:#EF4444; color:white; border:none; padding:5px 10px; border-radius:8px; cursor:pointer;" onclick="hapusItem(${i})">Hapus</button>
+      </div>
+    `;
+  });
+
+  wadahTotal.innerHTML = keranjang.length > 0 ? `Total: Rp ${total.toLocaleString()}` : "Keranjang masih kosong ya 😊";
 }
+
+// Hapus Item Keranjang
+function hapusItem(i){
+  keranjang.splice(i,1);
+  tampilKeranjang();
+}
+
+// Ganti Halaman
+document.querySelectorAll(".nav-item").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    // Hilangkan tanda aktif
+    document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    // Tambah tanda aktif
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.halaman).classList.add("active");
+  });
+});
+
+// Jalankan saat halaman dibuka
+tampilProduk();
 </script>
 </body>
 </html>
 
-
-
-    

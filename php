@@ -6,11 +6,6 @@ interface MetodePembayaran {
     public function getNamaMetode(): string;
 }
 
-// Fungsi helper untuk format Rupiah Indonesia (contoh: Rp 500.000)
-function formatRupiah(float $angka): string {
-    return "Rp " . number_format($angka, 0, ',', '.');
-}
-
 // 2 & 3. Class TransferBank (Biaya Admin 0%)
 class TransferBank implements MetodePembayaran {
     private string $nomorRekening;
@@ -19,85 +14,88 @@ class TransferBank implements MetodePembayaran {
         $this->nomorRekening = $nomorRekening;
     }
 
-    public function prosesBayar(float $jumlah, string $keterangan): bool {
-        $biayaAdmin = 0;
-        $total = $jumlah + $biayaAdmin;
-
-        echo "=== " . $this->getNamaMetode() . " ===\n";
-        echo "Nomor Rekening   : " . $this->nomorRekening . "\n";
-        echo "Keterangan       : " . $keterangan . "\n";
-        echo "Jumlah           : " . formatRupiah($jumlah) . "\n";
-        echo "Biaya Admin (0%) : " . formatRupiah($biayaAdmin) . "\n";
-        echo "Total Pembayaran : " . formatRupiah($total) . "\n";
-        echo "Status           : Pembayaran Berhasil\n\n";
-        return true;
-    }
-
     public function getNamaMetode(): string {
         return "Transfer Bank";
+    }
+
+    public function prosesBayar(float $jumlah, string $keterangan): bool {
+        $biayaAdmin = 0; // 0%
+        $total = $jumlah + $biayaAdmin;
+
+        echo "--- Informasi Pembayaran (" . $this->getNamaMetode() . ") ---\n";
+        echo "No. Rekening : " . $this->nomorRekening . "\n";
+        echo "Keterangan   : " . $keterangan . "\n";
+        echo "Jumlah Awal  : Rp " . number_format($jumlah, 0, ',', '.') . "\n";
+        echo "Biaya Admin  : Rp " . number_format($biayaAdmin, 0, ',', '.') . "\n";
+        echo "Total Bayar  : Rp " . number_format($total, 0, ',', '.') . "\n";
+        echo "Status       : Berhasil\n\n";
+
+        return true;
     }
 }
 
 // 2 & 3. Class QRIS (Biaya Admin 0.7%)
 class QRIS implements MetodePembayaran {
-    public function prosesBayar(float $jumlah, string $keterangan): bool {
-        $biayaAdmin = $jumlah * 0.007;
-        $total = $jumlah + $biayaAdmin;
-
-        echo "=== " . $this->getNamaMetode() . " ===\n";
-        echo "Keterangan         : " . $keterangan . "\n";
-        echo "Jumlah             : " . formatRupiah($jumlah) . "\n";
-        echo "Biaya Admin (0.7%) : " . formatRupiah($biayaAdmin) . "\n";
-        echo "Total Pembayaran   : " . formatRupiah($total) . "\n";
-        echo "Status             : Pembayaran Berhasil\n\n";
-        return true;
+    public function getNamaMetode(): string {
+        return "QRIS";
     }
 
-    public function getNamaMetode(): string {
-        echo "QRIS";
+    public function prosesBayar(float $jumlah, string $keterangan): bool {
+        $biayaAdmin = $jumlah * 0.007; // 0.7%
+        $total = $jumlah + $biayaAdmin;
+
+        echo "--- Informasi Pembayaran (" . $this->getNamaMetode() . ") ---\n";
+        echo "Keterangan   : " . $keterangan . "\n";
+        echo "Jumlah Awal  : Rp " . number_format($jumlah, 0, ',', '.') . "\n";
+        echo "Biaya Admin  : Rp " . number_format($biayaAdmin, 0, ',', '.') . "\n";
+        echo "Total Bayar  : Rp " . number_format($total, 0, ',', '.') . "\n";
+        echo "Status       : Berhasil\n\n";
+
+        return true;
     }
 }
 
-// 2 & 3. Class KartuKredit (Biaya Admin 2.5%, Tampilkan 4 digit terakhir)
+// 2 & 3. Class KartuKredit (Biaya Admin 2.5% dengan 4 digit terakhir)
 class KartuKredit implements MetodePembayaran {
-    private string $empatDigitTerakhir;
+    private string $nomorKartu;
 
     public function __construct(string $nomorKartu) {
-        // Mengambil 4 digit terakhir dari nomor kartu
-        $this->empatDigitTerakhir = substr($nomorKartu, -4);
-    }
-
-    public function prosesBayar(float $jumlah, string $keterangan): bool {
-        $biayaAdmin = $jumlah * 0.025;
-        $total = $jumlah + $biayaAdmin;
-
-        echo "=== " . $this->getNamaMetode() . " ===\n";
-        echo "Nomor Kartu      : ****-****-****-" . $this->empatDigitTerakhir . "\n";
-        echo "Keterangan       : " . $keterangan . "\n";
-        echo "Jumlah           : " . formatRupiah($jumlah) . "\n";
-        echo "Biaya Admin (2.5%): " . formatRupiah($biayaAdmin) . "\n";
-        echo "Total Pembayaran : " . formatRupiah($total) . "\n";
-        echo "Status           : Pembayaran Berhasil\n\n";
-        return true;
+        $this->nomorKartu = $nomorKartu;
     }
 
     public function getNamaMetode(): string {
         return "Kartu Kredit";
     }
+
+    public function prosesBayar(float $jumlah, string $keterangan): bool {
+        $biayaAdmin = $jumlah * 0.025; // 2.5%
+        $total = $jumlah + $biayaAdmin;
+        
+        // Mengambil 4 digit terakhir nomor kartu
+        $empatDigitTerakhir = substr($this->nomorKartu, -4);
+
+        echo "--- Informasi Pembayaran (" . $this->getNamaMetode() . ") ---\n";
+        echo "No. Kartu    : ****-****-****-" . $empatDigitTerakhir . "\n";
+        echo "Keterangan   : " . $keterangan . "\n";
+        echo "Jumlah Awal  : Rp " . number_format($jumlah, 0, ',', '.') . "\n";
+        echo "Biaya Admin  : Rp " . number_format($biayaAdmin, 0, ',', '.') . "\n";
+        echo "Total Bayar  : Rp " . number_format($total, 0, ',', '.') . "\n";
+        echo "Status       : Berhasil\n\n";
+
+        return true;
+    }
 }
 
-// --- CONTOH PENGGUNAAN (TESTING) ---
+// ==========================================
+// Contoh Penggunaan (Testing)
+// ==========================================
 
-// 1. Transfer Bank
-$bank = new TransferBank("1234567890");
-$bank->prosesBayar(500000, "Pembayaran Tagihan Listrik");
+$daftarPembayaran = [
+    new TransferBank("8881234567"),
+    new QRIS(),
+    new KartuKredit("4532123456789999")
+];
 
-// 2. QRIS
-$qris = new QRIS();
-$qris->prosesBayar(150000, "Pembayaran Makanan di Restoran");
-
-// 3. Kartu Kredit
-$cc = new KartuKredit("4111222233339999");
-$cc->prosesBayar(1250000, "Belanja Elektronik Online");
-
-?>
+foreach ($daftarPembayaran as $metode) {
+    $metode->prosesBayar(500000, "Pembayaran Langganan Bulanan");
+}
